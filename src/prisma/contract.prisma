@@ -1,0 +1,22 @@
+// use prisma-8
+
+model User {
+  id            String        @id @unique @default(uuid())
+  phone         String        @unique
+  name          String
+  hash_pass      String        @unique
+  salt          String
+  access_tokens AccessToken[]
+
+  created_at    DateTime      @default(Date.now())
+  updated_at    DateTime      @default(Date.now()) 
+}
+
+model AccessToken {
+  id            String        @id @unique @default(uuid())
+  user          User          @relation(fields: [userid], references: [id], onDelete: Cascade )
+  user_id       String
+
+  created_at    DateTime      @default(Date.now())
+  updated_at    DateTime      @default(Date.now()) 
+}
